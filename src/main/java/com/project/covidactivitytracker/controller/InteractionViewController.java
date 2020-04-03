@@ -7,10 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -34,7 +32,7 @@ public class InteractionViewController {
             Timestamp dayPassedTimestamp = new Timestamp(date.getTime());
             Timestamp nextDayTimestamp = new Timestamp(nextDay.getTime());
 
-            return personRespository.getAllUserPersonsWithDate(dayPassedTimestamp, nextDayTimestamp);
+            return personRespository.getAllUserPersonsWithDate(userId, dayPassedTimestamp, nextDayTimestamp);
         } else {
             List<Person> test =  personRespository.getAllUserPersons(userId);
             return test;
