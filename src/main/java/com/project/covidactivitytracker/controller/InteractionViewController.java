@@ -3,12 +3,14 @@ package com.project.covidactivitytracker.controller;
 import com.project.covidactivitytracker.dao.PersonRepository;
 import com.project.covidactivitytracker.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -18,7 +20,24 @@ public class InteractionViewController {
     private PersonRepository personRespository;
 
     @GetMapping("/{userId}/persons")
-    public List<Person> getPersonsOfUser(@PathVariable Integer userId) {
-        return personRespository.getAllUserPersons(userId);
+    public List<Person> getPersonsOfUser(
+            @PathVariable Integer userId,
+            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date date,
+            @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date endDate
+            ) {
+        if (date != null) {
+            Date nextDay = new Date(date.getTime() + (1000 * 60 * 60 * 24));
+            if (endDate != null) {
+                nextDay = endDate;
+            }
+
+            Timestamp dayPassedTimestamp = new Timestamp(date.getTime());
+            Timestamp nextDayTimestamp = new Timestamp(nextDay.getTime());
+
+            return personRespository.getAllUserPersonsWithDate(dayPassedTimestamp, nextDayTimestamp);
+        } else {
+            List<Person> test =  personRespository.getAllUserPersons(userId);
+            return test;
+        }
     }
 }

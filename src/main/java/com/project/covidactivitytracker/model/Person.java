@@ -1,11 +1,9 @@
 package com.project.covidactivitytracker.model;
 
-import com.project.covidactivitytracker.dto.PersonDTO;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.util.Optional;
+import java.util.Date;
 
 @Entity
 @Table(name = "person")
@@ -60,7 +58,7 @@ public class Person {
         this.name = name;
     }
 
-    public Timestamp getTimeOfInteraction() {
+    public Date getTimeOfInteraction() {
         return timeOfInteraction;
     }
 
