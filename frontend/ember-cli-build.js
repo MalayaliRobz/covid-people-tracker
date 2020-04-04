@@ -12,19 +12,15 @@ const purgeCSS = {
             // add extra paths here for components/controllers which include tailwind classes
             './app/index.html',
             './app/templates/**/*.hbs',
-            './app/components/**/*.hbs',
+            './app/components/**/*.hbs'
         ],
+        whitelistPatterns: [/ember-power-calendar/],
         defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
     },
 };
 
 module.exports = function (defaults) {
     const app = new EmberApp(defaults, {
-        outputPaths: {
-            vendor: {
-                css: '/assets/addons.css'
-            }
-        },
         postcssOptions: {
             compile: {
                 extension: 'scss',

@@ -36,7 +36,7 @@
       <div class="overflow-auto">
         <div class="{{if this.isFormExpanded 'mt-10' 'mt-4'}}">
           <Input 
-            class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200"
+            class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200 text-white"
             @enter={{fn this.onNameInputEnter}}
             @value={{this.dummyPerson.name}}
             @placeholder="Enter the name of a person you interacted today!"/>
@@ -45,19 +45,19 @@
         {{#if this.isFormExpanded}}
           <div class="mt-16">
             <Input 
-              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200"
+              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200 text-white"
               @type="date"
               @value={{this.dummyPerson.timeOfInteraction}}/>
           </div>
           <div class="mt-16">
             <Input 
-              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200"
+              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200 text-white"
               @value={{this.dummyPerson.placeOfInteraction}}
               @placeholder="Enter the place you interacted in."/>
           </div>
           <div class="mt-16">
             <Textarea 
-              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200 h-32"
+              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200 h-32 text-white"
               @value={{this.dummyPerson.additionalInfo}}
               @placeholder="Any other info you wanna add."/>
           </div>
