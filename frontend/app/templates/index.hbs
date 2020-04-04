@@ -1,0 +1,100 @@
+<div class="pt-5 px-5 bg-gray-100">
+  <div class="calender-comp flex">
+    <PowerCalendar 
+        @selected={{this.selectedDate}}
+        @onSelect={{this.updateSelectedDate}}
+        @onCenterChange={{this.updateMonth}}
+        @center={{this.centerDate}} as |calendar|>
+
+      <calendar.Nav/>
+      <calendar.Days @showDaysAround={{false}}/>
+    </PowerCalendar>
+  </div>
+</div>
+
+<div class="flex flex-col flex-1">
+  <div class="p-5">
+      dashboard comp
+  </div>
+
+  <div class="{{if this.isFormExpanded 'h-90screen' 'h-48'}}
+      bg-indigo z-10 p-5 w-full fixed bottom-0 transition-height duration-300"
+      style="box-shadow: 0px -3px 6px rgba(0, 0, 0, 0.25);">
+    
+    {{#if this.isFormExpanded}}
+      <button class="flex relative -mt-3"
+          {{on "click" this.triggerFullForm}}>
+        {{svg-jar "double-down" class="double-down-icon bg-indigo -mt-8"}}
+      </button>
+    {{/if}}
+
+    <div class="flex flex-col text-white {{if this.isFormExpanded 'h-90screen'}}">
+      <div class="text-xl font-extrabold">
+        Enter people by name
+      </div>
+
+      <div class="overflow-auto">
+        <div class="{{if this.isFormExpanded 'mt-10' 'mt-4'}}">
+          <Input 
+            class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200"
+            @enter={{fn this.onNameInputEnter}}
+            @value={{this.dummyPerson.name}}
+            @placeholder="Enter the name of a person you interacted today!"/>
+        </div>
+
+        {{#if this.isFormExpanded}}
+          <div class="mt-16">
+            <Input 
+              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200"
+              @type="date"
+              @value={{this.dummyPerson.timeOfInteraction}}/>
+          </div>
+          <div class="mt-16">
+            <Input 
+              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200"
+              @value={{this.dummyPerson.placeOfInteraction}}
+              @placeholder="Enter the place you interacted in."/>
+          </div>
+          <div class="mt-16">
+            <Textarea 
+              class="text-2xl bg-indigo border-b-2 outline-none w-1/2 pl-2 placeholder-gray-200 h-32"
+              @value={{this.dummyPerson.additionalInfo}}
+              @placeholder="Any other info you wanna add."/>
+          </div>
+        {{/if}}
+      </div>
+
+      {{#if this.isFormExpanded}}
+        <div class="flex w-1/2 flex-1 justify-end mb-10 items-end text-xl font-bold">
+          <button class="btn font-semibold" 
+              {{on "click" this.personFormCancel}}>
+            Cancal
+          </button>
+
+          <button class="ml-3 btn btn-primary font-semibold shadow-xs"
+              {{on "click" this.onPeopleFormSubmit}}>
+            Submit
+          </button>
+        </div>
+      {{/if}}
+
+    </div>
+
+
+    {{#unless this.isFormExpanded}}
+      <div class="flex">
+        <button class="btn mt-5 font-extrabold"
+            {{on "click" this.onNameInputEnter}}>
+          <span>OK</span>
+          {{svg-jar "tick" class="ml-2"}}
+        </button>
+
+        <span class="text-white mt-4 flex items-center ml-1 text-xs">
+          press Enter 
+          {{svg-jar "enter" class="ml-1"}}
+        </span>
+      </div>
+    {{/unless}}
+    
+  </div>
+</div>

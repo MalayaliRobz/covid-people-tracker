@@ -1,10 +1,132 @@
 import Controller from '@ember/controller';
+import { action, set} from '@ember/object';
+import { tracked } from 'tracked-built-ins';
 
-export default class Index extends Controller.extend({
-  // anything which *must* be merged to prototype here
-}) {
-  // normal class body definition here
-  disableButtons: boolean = true;
+class Person {
+  name: string | undefined;
+  timeOfInteraction: string | undefined;
+  placeOfInteraction: string | undefined;
+  additionalInfo: string | undefined;
+  userId: number;
+
+  constructor(userId: number, timeOfInteraction: string) {
+    this.timeOfInteraction = timeOfInteraction;
+    this.userId = userId;
+  }
+
+  clear() { 
+      set(this, 'name', undefined);
+      set(this, 'timeOfInteraction', undefined);
+      set(this, 'placeOfInteraction', undefined);
+      set(this, 'additionalInfo', undefined);
+  }
+
+  getData() {
+    return {
+      name: this.name,
+      timeOfInteraction: Date.parse(this.timeOfInteraction),
+      placeOfInteraction: this.placeOfInteraction,
+      additionalInfo: this.additionalInfo,
+      userId: this.userId
+    }
+  }
+
+  save() {
+    let data = this.getData();
+    let myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    
+    let raw = JSON.stringify(data);
+    
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    
+    return fetch("/add_entry/person", requestOptions)
+      .then(response => response.json())
+  }
+}
+
+export default class Index extends Controller {
+  @tracked
+  centerDate: Date = new Date();
+
+  @tracked
+  selectedDate: Date = new Date();
+
+  @tracked
+  isFormExpanded : boolean = false
+
+  @tracked
+  dummyPerson : Person = new Person(1, this.formatDate(new Date()));
+
+  formatDate(date: Date) {
+    let dd = String(date.getDate()); 
+    let mm = String(date.getMonth() + 1); 
+    let yyyy = String(date.getFullYear()); 
+
+    if (parseInt(dd) < 10) { 
+      dd = '0' + dd; 
+  } 
+  if (parseInt(mm) < 10) { 
+      mm = '0' + mm; 
+  }
+
+    return `${yyyy}-${mm}-${dd}`; 
+  }
+
+
+  @action
+  updateSelectedDate({ date } : { date: Date }) {
+    this.selectedDate = date;
+  }
+
+  @action
+  updateSelectedDateInForm(date: Date) { 
+    this.selectedDate = date;
+  }
+
+  @action
+  updateMonth({ date } : { date: Date }) {
+      this.centerDate = date;
+  }
+
+  @action
+  triggerFullForm() {
+    this.isFormExpanded = !this.isFormExpanded;
+  }
+
+  @action
+  async onPeopleFormSubmit() {
+    try {
+      await this.dummyPerson.save();
+
+      this.dummyPerson.clear();
+      this.isFormExpanded = false;
+    } catch(error) {
+      console.log("error", error);
+      
+    }
+  }
+
+  @action
+  personFormCancel() {
+    this.dummyPerson.clear();
+    this.isFormExpanded = false;
+  }
+
+  @action
+  onNameInputEnter() {
+    if (this.dummyPerson.name && !this.isFormExpanded) {
+      this.isFormExpanded = !this.isFormExpanded;
+    } else if (!this.isFormExpanded) {
+      alert("Please enter a name");
+    }
+  }
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your controllers.

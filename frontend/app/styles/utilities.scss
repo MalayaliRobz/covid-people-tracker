@@ -1,0 +1,17 @@
+@import "tailwindcss/utilities.css";
+@import "ember-power-calendar";
+
+.btn {
+ @apply flex items-center justify-center text-black rounded bg-white border px-4 py-1;
+}
+
+.btn:hover {
+ @apply bg-gray-100;
+}
+
+.btn.btn-primary {
+  @apply bg-indigo border border-white text-white;
+}
+.btn.btn-primary:hover {
+  @apply bg-white border border-white text-indigo;
+}

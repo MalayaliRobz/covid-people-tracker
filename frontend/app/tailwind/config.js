@@ -17,7 +17,7 @@ module.exports = {
             indigo: '#5061CE',
 
             gray: {
-                100: '#F9F9FA',
+                100: '#F0F5FB',
                 200: '#E8E8E8',
                 300: '#DBDDE0',
                 400: '#CACCCF',
@@ -191,6 +191,7 @@ module.exports = {
             ...theme('spacing'),
             full: '100%',
             screen: '100vh',
+            '90screen': '90vh',
         }),
         inset: {
             0: '0',
@@ -503,6 +504,7 @@ module.exports = {
             opacity: 'opacity',
             shadow: 'box-shadow',
             transform: 'transform',
+            height: 'height',
         },
         transitionTimingFunction: {
             linear: 'linear',

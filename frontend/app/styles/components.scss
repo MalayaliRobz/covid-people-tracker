@@ -1,0 +1,26 @@
+@import "tailwindcss/components.css";
+
+.ember-power-calendar-nav-control {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.ember-power-calendar-day {
+  outline: 0 !important;
+  border-radius: 35px;
+}
+.ember-power-calendar-nav-title {
+  font-weight: 600 !important;
+}
+
+.ember-power-calendar-weekday {
+  font-size: 12px !important;
+  color: #52575C !important;
+}
+
+.ember-power-calendar-day--focused {
+  box-shadow: none !important;
+}
+
+.ember-power-calendar-day--selected {
+  color: #ffff !important;
+  background-color: #5061CE !important;
+}

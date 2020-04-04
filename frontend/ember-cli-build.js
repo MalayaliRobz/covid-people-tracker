@@ -22,7 +22,13 @@ module.exports = function (defaults) {
     const app = new EmberApp(defaults, {
         postcssOptions: {
             compile: {
+                extension: 'scss',
+                enabled: true,
+                parser: require('postcss-scss'),
                 plugins: [
+                    {
+                        module: require('@csstools/postcss-sass'),
+                    },
                     {
                         module: require('postcss-import'),
                         options: {
@@ -33,6 +39,9 @@ module.exports = function (defaults) {
                     ...isProduction ? [purgeCSS] : [],
                 ],
             },
+        },
+        'ember-power-calendar-date-fns': {
+            includeLocales: ['en-US', 'en-GB'],
         },
     });
     return app.toTree();

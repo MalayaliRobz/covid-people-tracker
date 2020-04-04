@@ -1,0 +1,31 @@
+@import "tailwindcss/base.css";
+@import "./components.scss";
+@import "./utilities.scss";
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.application-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.calender-comp {
+  @include ember-power-calendar(
+    $cell-size: 45px, 
+    $primary-color: #5061CE,
+    $day-color--hover: #DBDDE0,
+    $day-current-month-color: #F0F5FB);
+}
+
+.double-down-icon {
+  position: absolute;
+  bottom: 0px;
+  left: 65vw;
+}
