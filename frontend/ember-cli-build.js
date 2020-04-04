@@ -20,6 +20,11 @@ const purgeCSS = {
 
 module.exports = function (defaults) {
     const app = new EmberApp(defaults, {
+        outputPaths: {
+            vendor: {
+                css: '/assets/addons.css'
+            }
+        },
         postcssOptions: {
             compile: {
                 extension: 'scss',
