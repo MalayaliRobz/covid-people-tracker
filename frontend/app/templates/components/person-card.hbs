@@ -1,5 +1,5 @@
 {{#unless @person.isDeleted}}
-  <div class="person-card flex bg-pink-100 h-20 w-64 mr-3 mt-3 p-3 pl-5 items-center rounded-lg">
+  <div class="person-card flex bg-pink-100 h-20 w-64 mr-3 mt-3 p-3 pl-5 items-center rounded-lg shadow">
     <div>
       <img src={{this.randomAvar}} alt="avatar-image">
     </div>
@@ -7,7 +7,7 @@
       <span class="text-base font-bold text-gray-600 truncate">
         {{@person.name}}
       </span>
-      <span class="text-xs text-gray-500">
+      <span class="text-xs text-gray-500 truncate">
         {{@person.placeOfInteraction}}
       </span>
     </div>
