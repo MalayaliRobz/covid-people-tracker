@@ -47,7 +47,7 @@ class Person {
       redirect: 'follow'
     };
     
-    return fetch("/add_entry/person", requestOptions)
+    return fetch("/entity/person", requestOptions)
       .then(response => response.json())
   }
 }
@@ -148,6 +148,20 @@ export default class Index extends Controller {
   personFormCancel() {
     this.dummyPerson.clear();
     this.isFormExpanded = false;
+  }
+
+  @action
+  async onPersonDeleteClick(person) {
+    set(person, 'isDeleted', true);
+
+    var requestOptions = {
+      method: 'DELETE',
+      redirect: 'follow'
+    };
+    
+    await fetch(`/entity/person/${person.id}`, requestOptions)
+
+    this.fetchPeople.perform(new Date(person.timeOfInteraction));
   }
 
   @action

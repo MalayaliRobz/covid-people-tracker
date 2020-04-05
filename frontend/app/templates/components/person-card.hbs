@@ -1,13 +1,19 @@
-<div class="flex bg-pink-100 h-20 w-64 mr-3 mt-3 p-3 pl-5 items-center rounded-lg">
-  <div>
-    <img src={{this.randomAvar}} alt="avatar-image">
+{{#unless @person.isDeleted}}
+  <div class="person-card flex bg-pink-100 h-20 w-64 mr-3 mt-3 p-3 pl-5 items-center rounded-lg">
+    <div>
+      <img src={{this.randomAvar}} alt="avatar-image">
+    </div>
+    <div class="flex flex-1 flex-col ml-5 overflow-hidden">
+      <span class="text-base font-bold text-gray-600 truncate">
+        {{@person.name}}
+      </span>
+      <span class="text-xs text-gray-500">
+        {{@person.placeOfInteraction}}
+      </span>
+    </div>
+    <div class="person-delete hidden cursor-pointer"
+      {{on "click" (fn @onPersonDeleteClick @person)}}>
+      {{svg-jar "delete" class="w-5 fill-current text-gray-100 opacity-50 hover:opacity-100"}}
+    </div>
   </div>
-  <div class="flex flex-col ml-5 overflow-hidden">
-    <span class="text-base font-bold text-gray-600 truncate">
-      {{@person.name}}
-    </span>
-    <span class="text-xs text-gray-500">
-      {{@person.placeOfInteraction}}
-    </span>
-  </div>
-</div>
+{{/unless}}

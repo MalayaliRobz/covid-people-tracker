@@ -10,12 +10,14 @@ import com.project.covidactivitytracker.model.Crowd;
 import com.project.covidactivitytracker.model.Person;
 import com.project.covidactivitytracker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping("add_entry")
+@RequestMapping("entity")
 public class EntryController {
 
     @Autowired
@@ -51,6 +53,15 @@ public class EntryController {
 
         personRespository.save(person);
         return person;
+    }
+
+    @DeleteMapping("/person/{personId}")
+    public ResponseEntity person(
+            @PathVariable Integer personId) {
+
+        personRespository.deleteById(personId);
+
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @PostMapping("/crowd")

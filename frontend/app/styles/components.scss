@@ -24,3 +24,11 @@
   color: #ffff !important;
   background-color: #5061CE !important;
 }
+
+.person-card {
+  &:hover {
+    .person-delete {
+      display: block;
+    }
+  }
+}
