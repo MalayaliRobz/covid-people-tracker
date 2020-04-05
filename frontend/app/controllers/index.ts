@@ -1,6 +1,8 @@
 import Controller from '@ember/controller';
 import { action, set} from '@ember/object';
 import { tracked } from 'tracked-built-ins';
+import { task } from 'ember-concurrency-decorators';
+import { timeout } from 'ember-concurrency';
 
 class Person {
   name: string | undefined;
@@ -16,7 +18,6 @@ class Person {
 
   clear() { 
       set(this, 'name', undefined);
-      set(this, 'timeOfInteraction', undefined);
       set(this, 'placeOfInteraction', undefined);
       set(this, 'additionalInfo', undefined);
   }
@@ -52,17 +53,26 @@ class Person {
 }
 
 export default class Index extends Controller {
+  constructor() {
+    super(...arguments);
+
+    this.fetchPeople.perform(new Date());
+  }
+
   @tracked
   centerDate: Date = new Date();
 
   @tracked
-  selectedDate: Date = new Date();
+  selectedDate: Date = new Date(new Date().toDateString());
 
   @tracked
   isFormExpanded : boolean = false
 
   @tracked
   dummyPerson : Person = new Person(1, this.formatDate(new Date()));
+ 
+  @tracked
+  peopleList  = []
 
   formatDate(date: Date) {
     let dd = String(date.getDate()); 
@@ -79,10 +89,30 @@ export default class Index extends Controller {
     return `${yyyy}-${mm}-${dd}`; 
   }
 
+  @task({ restartable: true })
+  *fetchPeople(this: Index, date: Date) {
+    try {
+      let requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+      yield timeout(150);
+      let response = yield fetch(`/1/persons?date=${this.formatDate(date)}`, requestOptions);
+      response = yield response.json()
+
+      // console.log(response);
+      
+      this.peopleList = response;
+    } catch(error) {
+      console.error(error);
+    }
+  };
 
   @action
   updateSelectedDate({ date } : { date: Date }) {
     this.selectedDate = date;
+    this.fetchPeople.perform(date);
   }
 
   @action
@@ -104,6 +134,7 @@ export default class Index extends Controller {
   async onPeopleFormSubmit() {
     try {
       await this.dummyPerson.save();
+      this.fetchPeople.perform(new Date(this.dummyPerson.timeOfInteraction));
 
       this.dummyPerson.clear();
       this.isFormExpanded = false;

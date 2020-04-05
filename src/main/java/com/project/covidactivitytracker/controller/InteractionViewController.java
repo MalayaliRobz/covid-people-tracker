@@ -20,8 +20,8 @@ public class InteractionViewController {
     @GetMapping("/{userId}/persons")
     public List<Person> getPersonsOfUser(
             @PathVariable Integer userId,
-            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date date,
-            @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date endDate
+            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+            @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
             ) {
         if (date != null) {
             Date nextDay = new Date(date.getTime() + (1000 * 60 * 60 * 24));
